@@ -72,20 +72,20 @@ MultiSerialPort.sendByteData('/dev/ttyS2',byteData2);
 ```javascript
 import MultiSerialPort from 'react-native-multi-serial-port';
 
-     DeviceEventEmitter.addListener('onSerialPortRecevieData', this.onSerialPortRecevieData, this)
+     DeviceEventEmitter.addListener('onSerialPortReceiveData', this.onSerialPortReceiveData, this)
     //监听接收串口开关的状态
 	DeviceEventEmitter.addListener('onSerialPortOpenStatus'，this.onSerialPortOpenStatus, this)
 
 	    //监听串口的状态
     onSerialPortOpenStatus(resStatus) {
-        let isSucess = resStatus.isSucess; // 是否开启成功
+        let isSuccess = resStatus.isSuccess; // 是否开启成功
         let linuxDevPath = resStatus.linuxDevPath; //开启的串口
         //处理逻辑
 	}
 	
     // 监听串口回传数据
-    onSerialPortRecevieData(receiveData) {
-        console.log("onSerialPortRecevieData");
+    onSerialPortReceiveData(receiveData) {
+        console.log("onSerialPortReceiveData");
         let linuxDevPath = receiveData.linuxDevPath;// 可以根据这个来判断是哪个串口返回来的数据
         let serialPortReceiveData = receiveData.valueArray // 指定串口返回的数据
         // 处理接收的数据

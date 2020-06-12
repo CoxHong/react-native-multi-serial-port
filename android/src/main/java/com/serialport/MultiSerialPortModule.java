@@ -23,7 +23,7 @@ public class MultiSerialPortModule extends ReactContextBaseJavaModule {
 
     private final ReactApplicationContext reactContext;
     private static final String onSerialPortOpenStatus  = "onSerialPortOpenStatus";//判断串口是否打开成功通知
-    private static final String onSerialPortRecevieData  = "onSerialPortRecevieData";//判断串口是否打开成功通知
+    private static final String onSerialPortReceiveData  = "onSerialPortReceiveData";//判断串口是否打开成功通知
 
     private DLCSerialPortUtil portutil;
     private ArrayList<SerialPortManager> mPortManagers = new ArrayList<>();
@@ -84,7 +84,7 @@ public class MultiSerialPortModule extends ReactContextBaseJavaModule {
         for (SerialPortManager portManager : mPortManagers) {
             String devicePath = portManager.getDevicePath();
             if (devicePath != null && portStr.equals(devicePath)) {
-                params.putBoolean("isSucess",false);
+                params.putBoolean("isSuccess",false);
                 params.putString("msg","找不到串口:"+portStr);
 
                 this.reactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class).emit(onSerialPortOpenStatus,params);
@@ -94,15 +94,15 @@ public class MultiSerialPortModule extends ReactContextBaseJavaModule {
 
         SerialPortManager manager = DLCSerialPortUtil.getInstance().open(portStr,Baudrates);
         if (manager == null){
-            params.putBoolean("isSucess",false);
+            params.putBoolean("isSuccess",false);
             params.putString("msg","找不到串口:"+portStr);
             this.reactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class).emit(onSerialPortOpenStatus,params);
             return;
         }
-        boolean isSucess = manager.isOpenSuccess();
-        if ( isSucess){
+        boolean isSuccess = manager.isOpenSuccess();
+        if ( isSuccess){
             //打开串口成功
-            params.putBoolean("isSucess",true);
+            params.putBoolean("isSuccess",true);
             params.putString("msg","打开串口成功:"+portStr);
             this.reactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class).emit(onSerialPortOpenStatus,params);            manager.setReceiveCallback(new ReceiveCallback() {
                 @Override
@@ -116,13 +116,13 @@ public class MultiSerialPortModule extends ReactContextBaseJavaModule {
                     }
                     params.putString("linuxDevPath", devicePath);
                     params.putArray("valueArray", receiveArray);
-                    reactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class).emit(onSerialPortRecevieData, params);
+                    reactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class).emit(onSerialPortReceiveData, params);
                 }
             });
             mPortManagers.add(manager);
         }else {
             //打开串口失败
-            params.putBoolean("isSucess",false);
+            params.putBoolean("isSuccess",false);
             params.putString("msg","打开串口失败:"+portStr);
             this.reactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class).emit(onSerialPortOpenStatus,params);
         }
@@ -147,7 +147,7 @@ public class MultiSerialPortModule extends ReactContextBaseJavaModule {
             }
             params.putString("linuxDevPath", devicePath);
             params.putArray("valueArray", receiveArray);
-            reactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class).emit(onSerialPortRecevieData, params);
+            reactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class).emit(onSerialPortReceiveData, params);
         }
     };
 
