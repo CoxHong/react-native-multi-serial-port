@@ -40,7 +40,7 @@ public class SerialReadThread extends Thread {
                         this.onDataReceive(received, size);
                     }
                 } else {
-                    SystemClock.sleep(1L);
+                    SystemClock.sleep(100);
                 }
             } catch (IOException var4) {
                 ;
