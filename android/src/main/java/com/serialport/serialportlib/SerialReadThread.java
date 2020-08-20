@@ -35,12 +35,11 @@ public class SerialReadThread extends Thread {
             try {
                 int available = this.mInputStream.available();
                 if (available > 0) {
+                    SystemClock.sleep(200);
                     int size = this.mInputStream.read(received);
                     if (size > 0) {
                         this.onDataReceive(received, size);
                     }
-                } else {
-                    SystemClock.sleep(100);
                 }
             } catch (IOException var4) {
                 ;
